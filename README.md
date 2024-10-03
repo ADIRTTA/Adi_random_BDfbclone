@@ -25,5 +25,4 @@ ls
 python "Adi BD fbclone.py"
 
 
-cd 
 
