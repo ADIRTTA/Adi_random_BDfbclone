@@ -2,6 +2,7 @@ import subprocess
 import random
 import time
 import threading
+import os
 from cryptography.fernet import Fernet
 
 # Set this variable to True to encrypt, or False to decrypt
