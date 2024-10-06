@@ -1,4 +1,3 @@
-import os
 import subprocess
 import random
 import time
@@ -7,6 +6,10 @@ from cryptography.fernet import Fernet
 
 # Set this variable to True to encrypt, or False to decrypt
 ENCRYPT_MODE = True  # Change to False for decryption
+
+# Function to clear the terminal
+def clear():
+    os.system('clear')
 
 # Function to check if there's internet connectivity
 def check_internet():
@@ -89,6 +92,8 @@ if __name__ == "__main__":
     loading = False
     loading_thread.join()  # Wait for the loading thread to finish
 
+    clear()  # Clear the terminal after checking internet connection
+
     if ENCRYPT_MODE:
         encrypt_code()
     else:
@@ -165,11 +170,11 @@ if __name__ == "__main__":
     def get_user_choice():
         print("\nChoose a network:")
         print("[01] 𝘎𝘳𝘢𝘮𝘦𝘦𝘯𝘱𝘩𝘰𝘯𝘦")
-        print("[02] 𝙱𝚊𝚗𝚐𝚕𝚊𝚕𝚒𝚗𝚔")
+        print("[02] 𝙱𝚊𝚗𝚐𝚕𝚒𝚗𝚔")
         print("[03] 𝚃𝚎𝚕𝚎𝚝𝚊𝚕𝚔")
         print("[04] 𝙰𝚒𝚛𝚝𝚎𝚕")
         print("[05] 𝚁𝚘𝚋𝚒")
-        print("[06] 𝘈𝘓𝘓 𝘔𝘐𝘅")
+        print("[06] 𝘈𝘓𝘓 𝘔𝘐𝘹")
         print("\nSelect your network (1-6):")
 
         network_choice = input().strip()
