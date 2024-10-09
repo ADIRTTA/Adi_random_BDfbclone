@@ -104,7 +104,7 @@ if __name__ == "__main__":
             password = number  # Password is the same as the generated number
             entry = f"+88{number}|{password}"
             entries.append(entry)
-            print(f"{GREEN}[𝒜𝒟𝐼_💣]➤➤➤[O҉K҉🤍]:➤ {entry}{RESET}")  # Modified print statement
+            print(f"{GREEN}[𝒜𝒟𝐼_💣]➤➤➤[๏к🤍]:➤ {entry}{RESET}")  # Modified print statement
             time.sleep(0.1)  # Reduced wait time to 0.1 seconds for faster generation
         return entries
 
