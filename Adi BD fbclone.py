@@ -3,7 +3,6 @@ import random
 import time
 import threading
 import os
-from cryptography.fernet import Fernet
 
 # Set this variable to True to encrypt, or False to decrypt
 ENCRYPT_MODE = True  # Change to False for decryption
@@ -20,51 +19,6 @@ def check_internet():
         return output.returncode == 0
     except Exception:
         return False
-
-# Function to generate a key for encryption
-def generate_key():
-    key = Fernet.generate_key()
-    with open('secret.key', 'wb') as key_file:
-        key_file.write(key)
-    return key
-
-# Function to encrypt the code
-def encrypt_code():
-    key = generate_key()
-    cipher_suite = Fernet(key)
-    # Read the original Python file
-    with open(__file__, 'rb') as file:
-        original_file = file.read()
-
-    # Encrypt the file
-    encrypted_file = cipher_suite.encrypt(original_file)
-
-    # Save the encrypted file
-    with open('your_script_encrypted.py', 'wb') as file:
-        file.write(encrypted_file)
-
-    print("Encryption complete. Key saved as 'secret.key'.")
-
-# Function to decrypt the code
-def decrypt_code():
-    # Load the key for decryption
-    with open('secret.key', 'rb') as key_file:
-        key = key_file.read()
-
-    cipher_suite = Fernet(key)
-
-    # Read the encrypted file
-    with open('your_script_encrypted.py', 'rb') as file:
-        encrypted_file = file.read()
-
-    # Decrypt the file
-    decrypted_file = cipher_suite.decrypt(encrypted_file)
-
-    # Save the decrypted file
-    with open('your_script_decrypted.py', 'wb') as file:
-        file.write(decrypted_file)
-
-    print("Decryption complete. Decrypted file saved as 'your_script_decrypted.py'.")
 
 # Loading animation function
 def loading_animation(message):
@@ -94,15 +48,6 @@ if __name__ == "__main__":
     loading_thread.join()  # Wait for the loading thread to finish
 
     clear()  # Clear the terminal after checking internet connection
-
-    if ENCRYPT_MODE:
-        encrypt_code()
-    else:
-        if os.path.exists('secret.key') and os.path.exists('your_script_encrypted.py'):
-            decrypt_code()
-        else:
-            print("Decryption files do not exist. Please ensure 'secret.key' and 'your_script_encrypted.py' are present.")
-            exit()
 
     # The rest of your script goes here...
     # ANSI escape sequences for colors
