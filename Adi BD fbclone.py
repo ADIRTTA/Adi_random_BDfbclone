@@ -1,169 +1,175 @@
-import subprocess
-import random
+import requests
 import time
-import threading
 import os
+import sys                                                                                                                                                                                                                                  # ANSI escape sequences for colors
+RESET = "\033[0m"
+GREEN_46 = "\033[38;5;46m"
+RED = "\033[38;5;196m"
+YELLOW = "\033[38;5;226m"
+BLUE = "\033[38;5;33m"
+CYAN = "\033[36m"
+BRIGHT_YELLOW = "\033[93m"
+MAGENTA = "\033[35m"
+BG_DARK_TURQUOISE = "\033[48;5;37m"
+BG_TURQUOISE = "\033[48;5;51m"
+X ="\033[48;5;223m"
+MINT = "\033[38;5;43m"
+AQUA ="\033[36m"
 
-# Set this variable to True to encrypt, or False to decrypt
-ENCRYPT_MODE = True  # Change to False for decryption
+# Define the API endpoint (mock endpoint)
+API_ENDPOINT = "https://yourapi.com/generate"
 
-# Function to clear the terminal
 def clear():
-    os.system('clear')
+    os.system('clear')  # Clears the terminal
 
-# Function to check if there's internet connectivity
-def check_internet():
-    try:
-        # Ping Google's DNS server to check for internet connection
-        output = subprocess.run(['ping', '-c', '1', '8.8.8.8'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        return output.returncode == 0
-    except Exception:
-        return False
+def show_banner():
+    banner = f"""
+{GREEN_46}╔════════════════════════╗
+{GREEN_46}║ {RED}BBBBB   CCCCC   AAAAAA{RESET} {GREEN_46}║
+{GREEN_46}║ {RED}B    B  C       A    A{RESET} {GREEN_46}║                                                            {GREEN_46}║ {RED}BBBBB   C       AAAAAA{RESET} {GREEN_46}║                                                            {GREEN_46}║ {RED}B    B  C       A    A{RESET} {GREEN_46}║
+{GREEN_46}║ {RED}BBBBB   CCCCC   A    A{RESET} {GREEN_46}║
+{GREEN_46}╚════════════════════════╝
 
-# Loading animation function
-def loading_animation(message):
-    animation = "|/\|/"
-    idx = 0
-    while loading:
-        print(f"\r{message}... {animation[idx]}", end="")
-        idx = (idx + 1) % len(animation)
-        time.sleep(0.1)
-    print("\r" + " " * (len(message) + 12) + "\r", end="")  # Clear the line after animation ends
+{RESET}{AQUA}💝A tool for BANGLADESH CYBER ARMY TEAM💝{RESET}
 
-# Main function
-if __name__ == "__main__":
-    # Start loading animation thread for internet check
-    loading = True
-    loading_thread = threading.Thread(target=loading_animation, args=("Checking for internet connection",))
-    loading_thread.start()
+{GREEN_46}╔═════════════╗  ࿇⃝🌹⃢A🌹⃝࿇  {GREEN_46}╔══════════════════════════════╗
+{GREEN_46}║[🤎]{GREEN_46}𝐂𝐨𝐝𝐞 𝐛𝐲  ║  ࿇⃝🌹⃢D🌹⃝࿇  {GREEN_46}║{GREEN_46}𝐀𝐃𝐈𝐑𝐓𝐓𝐀                       ║
+{GREEN_46}║[💛]{GREEN_46}𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 ║  ࿇⃝🌹⃢I🌹⃝࿇  {GREEN_46}║{GREEN_46}𝐒𝐇𝐈𝐍𝐂𝐇𝐎𝐘𝐎𝐍 𝐁𝐀𝐑𝐔𝐀 𝐀𝐃𝐈𝐑𝐓𝐓𝐀      ║
+{GREEN_46}║[🧡]{GREEN_46}𝐆𝐈𝐓𝐇𝐔𝐁   ║  ࿇⃝🌹⃢R🌹⃝࿇  {GREEN_46}║{GREEN_46}𝐀𝐃𝐈𝐑𝐓𝐓𝐀                       ║
+{GREEN_46}║[💚]{GREEN_46}𝐀𝐆𝐄      ║  ࿇⃝🌹⃢T🌹⃝࿇  {GREEN_46}║{GREEN_46}𝐉𝐔𝐒𝐓 𝟏𝟔                       ║
+{GREEN_46}║[💜]{GREEN_46}𝐅𝐑𝐎𝐌     ║  ࿇⃝🌹⃢T🌹⃝࿇  {GREEN_46}║{GREEN_46}𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇                    ║
+{GREEN_46}╚═════════════╝  ࿇⃝🌹⃢A🌹⃝࿇{RESET}  {GREEN_46}╚══════════════════════════════╝
+    """
+    print(banner)
 
-    # Check internet connectivity before proceeding
-    if not check_internet():
-        loading = False
-        loading_thread.join()  # Wait for the loading thread to finish
-        print("\033[31mNo internet connection. Please connect to the internet to use this tool.\033[0m")
-        exit()
+def loading_animation():
+    animation = ["[■□□□□□□□□□]", "[■■□□□□□□□□]", "[■■■□□□□□□□]", "[■■■■□□□□□□]",
+                 "[■■■■■□□□□□]", "[■■■■■■□□□□]", "[■■■■■■■□□□]", "[■■■■■■■■□□]",
+                 "[■■■■■■■■■□]", "[■■■■■■■■■■]"]
+    for i in range(len(animation)):
+        sys.stdout.write(f'\r{BLUE}Loading {animation[i]}{RESET}')
+        sys.stdout.flush()
+        time.sleep(0.4)
 
-    loading = False
-    loading_thread.join()  # Wait for the loading thread to finish
+def generate_data(num_entries, id_type):
+    entries = []
+    ok_count = 0  # Counter for successful IDs (OK)
+    cp_count = 0  # Counter for failed IDs (CP)
 
-    clear()  # Clear the terminal after checking internet connection
-
-    # The rest of your script goes here...
-    # ANSI escape sequences for colors
-    RESET = "\033[0m"
-    RED = "\033[31m"
-    GREEN = "\033[32m"
-    YELLOW = "\033[33m"
-    BLUE = "\033[34m"
-    MAGENTA = "\033[35m"
-    CYAN = "\033[36m"
-
-    def show_banner():
-        banner = f"""
-      {CYAN}   _______  _______  __   __  __   __  _______  __
-        |       ||   _   ||  | |  ||  | |  ||       ||  |
-        |    ___||  |_|  ||  |_|  ||  |_|  ||    ___||  |
-        |   |___ |       ||       ||       ||   |___ |  |
-        |    ___||       ||       ||       ||    ___||__|
-        |   |___ |   _   ||   _   ||   _   ||   |___  __
-        |_______||__| |__||__| |__||__| |__||_______||__|
-        {YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-          [☬] {GREEN}DEVELOPER   :   𝕊𝕙𝕠𝕟𝕔𝕙𝕠𝕪𝕠𝕟 𝔹𝕒𝕣𝕦𝕒 𝔸𝕕𝕚𝕣𝕥𝕥𝕒
-          [☬] {GREEN}FACEBOOK    :   𝕊𝕙𝕠𝕟𝕔𝕙𝕠𝕪𝕠𝕟 𝔹𝕒𝕣𝕦𝕒 𝔸𝕕𝕚𝕣𝕥𝕥𝕒
-          [☬] {GREEN}TOOL TYPE   :   FB-CLONING
-          [☬] {GREEN}VERSION     :   RANDOM
-          [☬] {GREEN}LOGIN METHOD:   use v.p.n.
-        {YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        """
-        print(banner)
-
-    def generate_11_digit_number(network_choice):
-        # Valid Bangladeshi phone number prefixes based on selected network
-        network_prefixes = {
-            "1": ["017", "013"],  # Grameenphone
-            "2": ["019"],          # Banglalink
-            "3": ["015"],          # Teletalk
-            "4": ["016"],          # Airtel
-            "5": ["018"],          # Robi
-            "6": ["017", "019", "015", "016", "018"]  # ALL MIX
+    for loop in range(1, num_entries + 1):
+        # Prepare the payload for the API request
+        payload = {
+            'id_type': id_type,
+            'loop': loop
         }
 
-        # Choose a random prefix from the selected network
-        prefix = random.choice(network_prefixes[network_choice])
+        # Make a request to the API
+        response = requests.post(API_ENDPOINT, json=payload)
 
-        # Generate the rest of the 8 digits
-        number = prefix + ''.join(random.choices('0123456789', k=8))
+        # Check if the request was successful
+        if response.status_code == 200:
+            data = response.json()
+            number = data.get("number")
+            password = data.get("password")
+            status = data.get("status")
 
-        return number
+            entry = f"{number}|{password}"
 
-    def generate_data(num_entries, network_choice):
-        entries = []
-        for _ in range(num_entries):
-            number = generate_11_digit_number(network_choice)
-            password = number  # Password is the same as the generated number
-            entry = f"+88{number}|{password}"
-            entries.append(entry)
-            print(f"{GREEN}[𝒜𝒟𝐼_💣]➤➤➤[๏к🤍]:➤ {entry}{RESET}")  # Modified print statement
-            time.sleep(0.1)  # Reduced wait time to 0.1 seconds for faster generation
-        return entries
+            if status == 'OK':
+                ok_count += 1
+                entries.append(entry)
+                formatted_entry = f"{entry: <25} | Status: {status}"
+                print(formatted_entry)
+            else:
+                cp_count += 1
 
-    def save_to_file(filename, data):
-        with open(filename, 'w') as file:
-            for entry in data:
-                file.write(entry + '\n')
+        # Show progress
+        sys.stdout.write(f'\r {MINT}[ ᗷ.ᑕ.ᗩ. ] {loop}/{num_entries} • OK:{ok_count} • CP:{cp_count}')
+        sys.stdout.flush()
 
-    def get_user_choice():
-        print("\nChoose a network:")
-        print("[01] 𝘎𝘳𝘢𝘮𝘦𝘦𝘯𝘱𝘩𝘰𝘯𝘦")
-        print("[02] 𝙱𝚊𝚗𝚐𝚕𝚒𝚗𝚔")
-        print("[03] 𝚃𝚎𝚕𝚎𝚝𝚊𝚕𝚔")
-        print("[04] 𝙰𝚒𝚛𝚝𝚎𝚕")
-        print("[05] 𝚁𝚘𝚋𝚒")
-        print("[06] 𝘈𝘓𝘓 𝘔𝘐𝘹")
-        print("\nSelect your network (1-6):")
+        time.sleep(1)  # Wait for 1 second before generating the next entry
 
-        network_choice = input().strip()
+    return entries
 
-        if network_choice not in ["1", "2", "3", "4", "5", "6"]:
-            print(f"{RED}Invalid choice, defaulting to ALL MIX (06).{RESET}")
-            network_choice = "6"
+def save_to_file(filename, data):
+    # Check if the file already exists and remove it
+    if os.path.exists(filename):
+        os.remove(filename)
+        print(f"{GREEN_46}Existing file '{filename}' removed.{RESET}")
 
-        print("\n(1) Generate 900 entries")
-        print("(2) Generate 500 entries")
-        print("(3) Generate 200 entries")
-        print("(4) Enter custom number of entries")
+    with open(filename, 'w') as file:
+        for entry in data:
+            file.write(entry + '\n')
 
-        choice = input("\nEnter your choice (1-4): ")
+def get_user_choice():
+    print(f"\n{GREEN_46}(1) Generate 900 𝙸𝙳'𝚜{RESET}")
+    print(f"{GREEN_46}(2) Generate 500 𝙸𝙳'𝚜{RESET}")
+    print(f"{GREEN_46}(3) Generate 200 𝙸𝙳'𝚜{RESET}")
+    print(f"{BG_DARK_TURQUOISE}(4) Enter custom number of 𝙸𝙳'𝚜{RESET}")
 
-        if choice == '1':
-            num_entries = 900
-        elif choice == '2':
-            num_entries = 500
-        elif choice == '3':
-            num_entries = 200
-        elif choice == '4':
-            custom_choice = int(input("Enter the number of entries to generate: "))
-            num_entries = custom_choice
-        else:
-            print(f"{RED}Invalid choice, defaulting to 10 entries.{RESET}")
-            num_entries = 10
+    choice = input(f"\n{RED}Enter your choice (1-4): {RESET}")
 
-        return num_entries, network_choice
+    if choice == '1':
+        return 900
+    elif choice == '2':
+        return 500
+    elif choice == '3':
+        return 200
+    elif choice == '4':
+        custom_choice = int(input(f"{YELLOW}Enter the number of entries to generate:{RESET} "))
+        return custom_choice
+    else:
+        print(f"{GREEN_46}Invalid choice, defaulting to 10 entries.{RESET}")
+        return 10
 
-    # Show the banner
-    show_banner()
+def get_id_choice():
+    print(f"\n{GREEN_46}(1) Old ID{RESET}")
+    print(f"{GREEN_46}(2) Random ID{RESET}")
+    print(f"{BG_DARK_TURQUOISE}(3) My other tools{RESET}")  # New option for "My other tools"
 
-    # Get user choice for the number of entries and network
-    num_entries, network_choice = get_user_choice()
+    id_choice = input(f"{YELLOW}Choose ID type (1-3): {RESET}")
 
-    # Generate the chosen number of entries
-    data = generate_data(num_entries, network_choice)
+    if id_choice == '3':  # Open GitHub if "My other tools" is selected
+        os.system('xdg-open https://github.com/ADIRTTA')
+        sys.exit()  # Exit the script after opening the GitHub page
 
-    # Save the data to a file in Termux
-    filename = '𝒜𝒟𝐼_ᗪᗩ丅ᗩ.txt'
-    save_to_file(filename, data)
+    if id_choice not in ['1', '2']:
+        print(f"{GREEN_46}Invalid choice, defaulting to Random ID.{RESET}")
+        return '2'  # Default to Random ID
+    return id_choice
 
-    print(f"{YELLOW}\nData saved to {filename}{RESET}")
+# Clear the screen
+clear()
 
-    print(f"{RED}\ncode by S҉H҉I҉N҉C҉H҉O҉Y҉O҉N҉ ҉B҉A҉R҉U҉A҉ ҉A҉D҉I҉R҉T҉T҉A҉{RESET}")
+# Show the banner
+show_banner()
+
+# Show loading animation before getting the ID choice
+loading_animation()
+
+# Get user choice for ID type (Old ID or Random ID)
+id_type = get_id_choice()
+
+# Clear the screen again after ID choice
+clear()
+
+# Show the banner again after clearing the screen
+show_banner()
+
+# Show loading animation before getting the number of entries
+loading_animation()
+
+# Get user choice for the number of entries to generate
+num_entries = get_user_choice()
+
+# Show loading animation before generating data
+loading_animation()
+
+# Generate the chosen number of entries with the selected ID type
+data = generate_data(num_entries, id_type)
+
+# Save the data to a file in Termux
+filename = 'ᗷ.ᑕ.ᗩ.txt'
+save_to_file(filename, data)
+
+print(f"{BRIGHT_YELLOW}\nData saved to {filename}{RESET}")
