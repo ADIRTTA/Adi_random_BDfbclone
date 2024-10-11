@@ -102,10 +102,10 @@ if __name__ == "__main__":
         for _ in range(num_entries):
             number = generate_11_digit_number(network_choice)
             password = number  # Password is the same as the generated number
-            entry = f"+88{number}|{password}"
+            entry = f"+88{number} | {password}"
             entries.append(entry)
             print(f"{GREEN}[𝒜𝒟𝐼_💣]➤➤➤[๏к🤍]:➤ {entry}{RESET}")  # Modified print statement
-            time.sleep(0.1)  # Reduced wait time to 0.1 seconds for faster generation
+            time.sleep(6)  # Reduced wait time to 6 seconds for faster generation
         return entries
 
     def save_to_file(filename, data):
