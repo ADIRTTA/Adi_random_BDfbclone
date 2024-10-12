@@ -23,7 +23,7 @@ cd Adi_random_BDfbclone
 
 chmod +x *
 
-python 'Adi BD fbclone.py'
+python3 'Adi BD fbclone.py'
 
 
 ________________________
